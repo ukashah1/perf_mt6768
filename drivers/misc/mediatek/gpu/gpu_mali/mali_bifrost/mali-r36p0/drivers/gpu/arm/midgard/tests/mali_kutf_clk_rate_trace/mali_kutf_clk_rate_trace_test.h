@@ -65,9 +65,6 @@
  *                                 interactive session, an inherent basic test
  *                                 carrying out some sanity check on the clock
  *                                 trace is undertaken.
- * @PORTAL_CMD_INVOKE_NOTIFY_42KHZ: Invokes all clock rate trace manager callbacks
- *                                 for the top clock domain with a new GPU frequency
- *                                 set to 42 kHZ.
  * @PORTAL_CMD_INVALID:            Valid commands termination marker. Must be
  *                                 the highest enumeration value, as it
  *                                 represents valid command array size.
@@ -82,7 +79,6 @@ enum kbasep_clk_rate_trace_req {
 	PORTAL_CMD_INC_PM_CTX_CNT,
 	PORTAL_CMD_DEC_PM_CTX_CNT,
 	PORTAL_CMD_CLOSE_PORTAL,
-	PORTAL_CMD_INVOKE_NOTIFY_42KHZ,
 	PORTAL_CMD_INVALID,
 	PORTAL_TOTAL_CMDS = PORTAL_CMD_INVALID,
 };
@@ -133,7 +129,6 @@ enum kbasep_clk_rate_trace_req {
 #define INC_PM_CTX_CNT       "INC_PM_CTX_CNT"
 #define DEC_PM_CTX_CNT       "DEC_PM_CTX_CNT"
 #define CLOSE_PORTAL         "CLOSE_PORTAL"
-#define INVOKE_NOTIFY_42KHZ  "INVOKE_NOTIFY_42KHZ"
 
 /**
  * DOC: Portal service response tag names.

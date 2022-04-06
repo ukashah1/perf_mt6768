@@ -20,6 +20,8 @@
 
 # make $(src) as absolute path if it is not already, by prefixing $(srctree)
 # This is to prevent any build issue due to wrong path.
+include $(src)/Kbuild-mtk-custom-env
+include $(src)/platform/mtk_platform_common/Kbuild
 src:=$(if $(patsubst /%,,$(src)),$(srctree)/$(src),$(src))
 
 #
@@ -83,6 +85,7 @@ endif
 MALI_COVERAGE ?= 0
 
 # Kconfig passes in the name with quotes for in-tree builds - remove them.
+CONFIG_MALI_PLATFORM_NAME ?= $(CONFIG_MALI_PLATFORM_THIRDPARTY_NAME)
 MALI_PLATFORM_DIR := $(shell echo $(CONFIG_MALI_PLATFORM_NAME))
 
 ifeq ($(CONFIG_MALI_CSF_SUPPORT),y)
@@ -137,7 +140,8 @@ ccflags-y += \
     -I$(src) \
     -I$(src)/platform/$(MALI_PLATFORM_DIR) \
     -I$(src)/../../../base \
-    -I$(src)/../../../../include
+    -I$(src)/../../../../include \
+    -I$(src)/include
 
 subdir-ccflags-y += $(ccflags-y)
 
@@ -174,6 +178,7 @@ mali_kbase-y := \
     mali_kbase_core_linux.o \
     mali_kbase_mem_profile_debugfs.o \
     mali_kbase_disjoint_events.o \
+    mali_kbase_gator_api.o \
     mali_kbase_debug_mem_view.o \
     mali_kbase_smc.o \
     mali_kbase_mem_pool.o \
@@ -228,6 +233,7 @@ else
         mali_kbase_fence.o
 endif
 
+mali_kbase-y += mali_gputrace.o
 
 INCLUDE_SUBDIR = \
     $(src)/context/Kbuild \

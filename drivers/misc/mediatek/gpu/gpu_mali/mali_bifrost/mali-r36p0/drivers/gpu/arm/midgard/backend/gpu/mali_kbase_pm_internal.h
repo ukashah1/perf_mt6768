@@ -885,6 +885,15 @@ static inline void kbase_pm_unlock(struct kbase_device *kbdev)
 #endif /* !MALI_USE_CSF */
 }
 
+extern bool l2_always_on;
+
+#ifdef ENABLE_COMMON_DVFS
+struct kbase_device *mtk_get_mali_dev(void);
+void MTKCalGpuUtilization(unsigned int *pui32Loading, unsigned int *pui32Block, unsigned int *pui32Idle);
+u32 kbasep_get_gl_utilization(void);
+u32 kbasep_get_cl_js0_utilization(void);
+u32 kbasep_get_cl_js1_utilization(void);
+#endif /* ENABLE_COMMON_DVFS */
 #if MALI_USE_CSF && defined(KBASE_PM_RUNTIME)
 /**
  * kbase_pm_gpu_sleep_allowed - Check if the GPU is allowed to be put in sleep
