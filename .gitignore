@@ -124,3 +124,21 @@ all.config
 
 # fetched Android config fragments
 kernel/configs/android-*.cfg
+
+# Base
+AnyKernel3/
+
+# Output
+outL/
+outM/
+outS/
+
+# Build scripts
+lancelot.sh
+merlin.sh
+shiva.sh
+
+# Compiler
+clang/
+compiler/
+gcc/
