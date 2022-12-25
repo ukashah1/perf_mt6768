@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
  * Copyright (C) 2019 MediaTek Inc.
- * Copyright (C) 2021 XiaoMi, Inc.
  */
 
 #include <crypto/algapi.h>
@@ -144,14 +143,11 @@ static int mmc_crypto_keyslot_program(struct keyslot_manager *ksm,
 		return -EINVAL;
 
 	memset(&cfg, 0, sizeof(cfg));
-
+#ifndef CONFIG_MMC_CRYPTO_LEGACY
 	cfg.data_unit_size = data_unit_mask;
-#ifdef CONFIG_MMC_CRYPTO_LEGACY
-	/* used fsrypt v2 in OTA fscrypt v1 environment */
-	if (key->hie_duint_size != 4096)
-		cfg.data_unit_size = 1;
+#else
+	cfg.data_unit_size = 1;
 #endif
-
 	cfg.crypto_cap_idx = cap_idx;
 	cfg.config_enable |= MMC_CRYPTO_CONFIGURATION_ENABLE;
 
@@ -199,9 +195,7 @@ static int mmc_init_crypto_spec(struct mmc_host *host,
 {
 	int err;
 	u32 count;
-	/* K19A HQ-135324 fix vts by feiwen at 2021.5.19 start */
-	unsigned int crypto_modes_supported[BLK_ENCRYPTION_MODE_MAX] = {0};
-	/* K19A HQ-135324 fix vts by feiwen at 2021.5.19 end */
+	unsigned int crypto_modes_supported[BLK_ENCRYPTION_MODE_MAX];
 
 	if (!(host->caps2 & MMC_CAP2_CRYPTO)) {
 		err = -ENODEV;
